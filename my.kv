@@ -1,0 +1,624 @@
+WindowManager:
+    LoginWindow:
+    MainWindow:
+    DataWindow:
+    RegisterWindow:
+    AddMeasurementWindow:
+    EditPatientWindow:
+    EditMeasurementWindow:
+    EditWindow:
+    Deletion_conf:
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# login window
+<LoginWindow>:
+    name: "login_screen"
+    login: login
+    password: password
+    on_enter:
+        login.text = ""
+        password.text = ""
+
+    FloatLayout:
+        Label:
+            pos_hint: {"x": 0.3, "top": 0.8}
+            size_hint: 0.05, 0.05
+            text: "Login: "
+        TextInput:
+            pos_hint: {"x": 0.4, "top": 0.8}
+            size_hint: 0.15, 0.05
+            id: login
+            multiline: False
+        Label:
+            pos_hint: {"x": 0.3, "top": 0.7}
+            size_hint: 0.05, 0.05
+            text: "Password: "
+        TextInput:
+            pos_hint: {"x": 0.4, "top": 0.7}
+            size_hint: 0.15, 0.05
+            id: password
+            multiline: False
+            password: True
+        Button:
+            pos_hint: {"x": 0.4, "top": 0.6}
+            size_hint: 0.1, 0.1
+            text: "Submit"
+            on_release:
+                root.check()
+                app.root.current = "login_screen"
+                app.root.current = "main_screen" if root.flag == 1 else root.invalid()
+
+
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# data display window
+<DataWindow>:
+    name: "data_screen"
+    graph: graph
+    on_enter:
+        root.get_data()
+
+    GridLayout:
+        rows:2
+        BoxLayout:
+            id: graph
+
+        FloatLayout:
+            size_hint: 1, 0.3
+
+            Button:
+                pos_hint: {"x": 0.2, "top": 0.9}
+                size_hint: 0.3, 0.4
+                text: "Add a new measurement"
+                on_release:
+                    app.root.current = "addmeasurement_screen"
+            Button:
+                pos_hint: {"x": 0.2, "top": 0.5}
+                size_hint: 0.3, 0.4
+                text: "Edit measurements"
+                on_release:
+                    app.root.current = "edit_measurement_screen"
+
+            Button:
+                pos_hint: {"x": 0.5, "top": 0.9}
+                size_hint: 0.3, 0.4
+                text: "Edit patient's data"
+                on_release:
+                    app.root.current = "editpatient_screen"
+
+            Button:
+                pos_hint: {"x": 0.9}
+                size_hint: 0.1, 0.2
+                text: "Return"
+                on_release:
+                    app.root.current = "main_screen"
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# mian options window
+<MainWindow>:
+    name: "main_screen"
+
+    user: user
+
+    on_enter:
+        root.update_userid()
+
+    Button:
+        pos_hint: {"x": 0.35, "top": 0.6}
+        size_hint: 0.3, 0.1
+        text: "Read the code"
+        on_release:
+            root.start_scan()
+            app.root.current = "data_screen"
+
+    Button:
+        pos_hint: {"x": 0.35, "top": 0.4}
+        size_hint: 0.3, 0.1
+        text: "Register a new patient"
+        on_release:
+            app.root.current = "register_screen"
+
+    Label:
+        id: user
+        pos_hint: {"x": 0.05, "top": 0.95}
+        size_hint: 0.1, 0.05
+        text: ""
+
+    Button:
+        pos_hint: {"x": 0.9}
+        size_hint: 0.1, 0.05
+        text: "Log out"
+        on_release:
+            app.root.current = "login_screen"
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# new patient registration window
+<RegisterWindow>:
+    name: "register_screen"
+
+    pname: pname
+    psurname: psurname
+    ppesel: ppesel
+    pweight: pweight
+    pheight: pheight
+    psex: psex
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.8}
+        size_hint: 0.05, 0.05
+        text: "Please provide patient's data:"
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.7}
+        size_hint: 0.05, 0.05
+        text: "Name: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.7}
+        size_hint: 0.15, 0.05
+        id: pname
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.6}
+        size_hint: 0.05, 0.05
+        text: "Surname: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.6}
+        size_hint: 0.15, 0.05
+        id: psurname
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.5}
+        size_hint: 0.05, 0.05
+        text: "PESEL: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.5}
+        size_hint: 0.15, 0.05
+        id: ppesel
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.4}
+        size_hint: 0.05, 0.05
+        text: "Weight [kg]: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.4}
+        size_hint: 0.15, 0.05
+        id: pweight
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.3}
+        size_hint: 0.05, 0.05
+        text: "Height [cm]: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.3}
+        size_hint: 0.15, 0.05
+        id: pheight
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.2}
+        size_hint: 0.05, 0.05
+        text: "Sex (M/F): "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.2}
+        size_hint: 0.15, 0.05
+        id: psex
+        multiline: False
+
+    Button:
+        pos_hint: {"x": 0.6, "top": 0.45}
+        size_hint: 0.3, 0.1
+        text: "Register"
+        on_release:
+            root.register()
+
+    Button:
+        pos_hint: {"x": 0.9}
+        size_hint: 0.1, 0.05
+        text: "Return"
+        on_release:
+            app.root.current = "main_screen"
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# measurement addition window
+<AddMeasurementWindow>:
+    name: "addmeasurement_screen"
+
+    temp: temp
+    pulse: pulse
+    bpressure: bpressure
+
+    Label:
+        pos_hint: {"x": 0.15, "top": 0.8}
+        size_hint: 0.05, 0.05
+        text: "Please provide appropriate data:"
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.7}
+        size_hint: 0.05, 0.05
+        text: "Temperature: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.7}
+        size_hint: 0.15, 0.05
+        id: temp
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.6}
+        size_hint: 0.05, 0.05
+        text: "Pulse: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.6}
+        size_hint: 0.15, 0.05
+        id: pulse
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.5}
+        size_hint: 0.05, 0.05
+        text: "Blood pressure: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.5}
+        size_hint: 0.15, 0.05
+        id: bpressure
+        multiline: False
+
+    Button:
+        pos_hint: {"x": 0.6, "top": 0.45}
+        size_hint: 0.3, 0.1
+        text: "Add"
+        on_release:
+            root.add()
+
+    Button:
+        pos_hint: {"x": 0.9}
+        size_hint: 0.1, 0.05
+        text: "Return"
+        on_release:
+            app.root.current = "data_screen"
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# edit patient data window
+<EditPatientWindow>:
+    name: "editpatient_screen"
+
+    pname: pname
+    psurname: psurname
+    ppesel: ppesel
+    pweight: pweight
+    pheight: pheight
+    psex: psex
+
+    npname: npname
+    npsurname: npsurname
+    nppesel: nppesel
+    npweight: npweight
+    npheight: npheight
+    npsex: npsex
+
+    on_enter:
+        root.update_pdata()
+
+    Label:
+        pos_hint: {"x": 0.15, "top": 0.8}
+        size_hint: 0.05, 0.05
+        text: "Please update patient's data:"
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.7}
+        size_hint: 0.05, 0.05
+        text: "Name: "
+    Label:
+        pos_hint: {"x": 0.2, "top": 0.7}
+        size_hint: 0.15, 0.05
+        id: pname
+        text: ""
+    TextInput:
+        pos_hint: {"x": 0.45, "top": 0.7}
+        size_hint: 0.15, 0.05
+        id: npname
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.6}
+        size_hint: 0.05, 0.05
+        text: "Surname: "
+    Label:
+        pos_hint: {"x": 0.2, "top": 0.6}
+        size_hint: 0.15, 0.05
+        id: psurname
+        text: ""
+    TextInput:
+        pos_hint: {"x": 0.45, "top": 0.6}
+        size_hint: 0.15, 0.05
+        id: npsurname
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.5}
+        size_hint: 0.05, 0.05
+        text: "PESEL: "
+    Label:
+        pos_hint: {"x": 0.2, "top": 0.5}
+        size_hint: 0.15, 0.05
+        id: ppesel
+        text: ""
+    TextInput:
+        pos_hint: {"x": 0.45, "top": 0.5}
+        size_hint: 0.15, 0.05
+        id: nppesel
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.4}
+        size_hint: 0.05, 0.05
+        text: "Weight [kg]: "
+    Label:
+        pos_hint: {"x": 0.2, "top": 0.4}
+        size_hint: 0.15, 0.05
+        id: pweight
+        text: ""
+    TextInput:
+        pos_hint: {"x": 0.45, "top": 0.4}
+        size_hint: 0.15, 0.05
+        id: npweight
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.3}
+        size_hint: 0.05, 0.05
+        text: "Height [cm]: "
+    Label:
+        pos_hint: {"x": 0.2, "top": 0.3}
+        size_hint: 0.15, 0.05
+        id: pheight
+        text: ""
+    TextInput:
+        pos_hint: {"x": 0.45, "top": 0.3}
+        size_hint: 0.15, 0.05
+        id: npheight
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.2}
+        size_hint: 0.05, 0.05
+        text: "Sex (M/F): "
+    Label:
+        pos_hint: {"x": 0.2, "top": 0.2}
+        size_hint: 0.15, 0.05
+        id: psex
+        text: ""
+    TextInput:
+        pos_hint: {"x": 0.45, "top": 0.2}
+        size_hint: 0.15, 0.05
+        id: npsex
+        multiline: False
+
+    Button:
+        pos_hint: {"x": 0.75, "top": 0.45}
+        size_hint: 0.2, 0.1
+        text: "Edit"
+        on_release:
+            root.edit()
+            root.update_pdata()
+    Button:
+        pos_hint: {"x": 0.9}
+        size_hint: 0.1, 0.05
+        text: "Return"
+        on_release:
+            app.root.current = "data_screen"
+
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# edit measurement window
+<EditMeasurementWindow>:
+    name: "edit_measurement_screen"
+    spin: spin
+    on_enter:
+        root.update()
+
+    FloatLayout:
+        Label:
+            pos_hint: {"x": 0.4, "top": 0.8}
+            size_hint: 0.05, 0.05
+            text: "Please select desired timestamp of the measurement:"
+
+        Spinner:
+            id: spin
+            text: "Select a timestamp..."
+            pos_hint: {"x": 0.2, "top": 0.7}
+            size_hint: 0.5, 0.05
+
+        Button:
+            pos_hint: {"x": 0.2, "top": 0.6}
+            size_hint: 0.25, 0.1
+            text: "Edit item"
+            on_release:
+                root.get_ind()
+                if spin.text != "Select a timestamp...": \
+                app.root.current = "edit_screen"
+
+        Button:
+            pos_hint: {"x": 0.45, "top": 0.6}
+            size_hint: 0.25, 0.1
+            text: "Delete item"
+            on_release:
+                root.get_ind()
+                if spin.text != "Select a timestamp...": \
+                app.root.current = "deletion_conf_screen"
+
+        Button:
+            pos_hint: {"x": 0.9}
+            size_hint: 0.1, 0.05
+            text: "Return"
+            on_release:
+                app.root.current = "data_screen"
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# measurement edition window
+<EditWindow>:
+    name: "edit_screen"
+
+    temp: temp
+    pulse: pulse
+    bpressure: bpressure
+
+    Label:
+        pos_hint: {"x": 0.15, "top": 0.8}
+        size_hint: 0.05, 0.05
+        text: "Please provide appropriate data:"
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.7}
+        size_hint: 0.05, 0.05
+        text: "Temperature: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.7}
+        size_hint: 0.15, 0.05
+        id: temp
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.6}
+        size_hint: 0.05, 0.05
+        text: "Pulse: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.6}
+        size_hint: 0.15, 0.05
+        id: pulse
+        multiline: False
+
+    Label:
+        pos_hint: {"x": 0.1, "top": 0.5}
+        size_hint: 0.05, 0.05
+        text: "Blood pressure: "
+    TextInput:
+        pos_hint: {"x": 0.4, "top": 0.5}
+        size_hint: 0.15, 0.05
+        id: bpressure
+        multiline: False
+
+    Button:
+        pos_hint: {"x": 0.6, "top": 0.45}
+        size_hint: 0.3, 0.1
+        text: "Edit"
+        on_release:
+            root.edit()
+
+    Button:
+        pos_hint: {"x": 0.9}
+        size_hint: 0.1, 0.05
+        text: "Return"
+        on_release:
+            app.root.current = "edit_measurement_screen"
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# measurement deletion window
+<Deletion_conf>:
+    name: "deletion_conf_screen"
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Are you sure you want to delete this item?"
+
+    Button:
+        size_hint: 0.3, 0.2
+        pos_hint: {"x": 0.2, "top": 0.6}
+        text: "Yes"
+        on_release:
+            root.conf_delete()
+            app.root.current = "edit_measurement_screen"
+
+    Button:
+        size_hint: 0.3, 0.2
+        pos_hint: {"x": 0.5, "top": 0.6}
+        text: "No"
+        on_release:
+            app.root.current = "edit_measurement_screen"
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# pop_up window classes
+<Login_failed>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "The login or/and password are incorrect. Please try again."
+
+<Register_failed>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Unsufficient/incorrect data. Please try again."
+
+<Register_success>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Patient registered successfully"
+
+<Add_failed>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Unsufficient/incorrect data. Please try again."
+
+<Add_success>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Measurement added successfully."
+
+<Edit_patient_success>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Patient info updated successfully."
+
+<Edit_patient_failed>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "You provided wrong/no data. Please try again."
+
+<Connection_failed>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Server connection unavailable. Try again later."
+
+<Conf_del>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Item deleted successfully."
+
+<Edit_success>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "Item updates successfully."
+
+<Edit_failed>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "You provided wrong/no data. Please try again."
+
+<Must_select>:
+    Label:
+        size_hint: 0.3, 0.3
+        pos_hint: {"x":0.35, "top": 0.9}
+        text: "You must select a timestamp!"
