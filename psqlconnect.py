@@ -233,6 +233,6 @@ def edit_measurement(temp, pulse, bpressure, patient_id, index):
 
 # funkcja suplementacyjna, wprowadzic poprawne dane polaczenia!
 def polacz():
-    connection = psycopg2.connect(host="192.168.0.23", database="flucard_db", user="postgres", password="6938072")
+    connection = psycopg2.connect(host="abul.db.elephantsql.com", database="nxuliape", user="nxuliape", password="c5FT1S6m-3Cn_RRYChx40mXjFDb-uvKN")
     cursor = connection.cursor()
     return connection, cursor
