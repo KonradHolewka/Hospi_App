@@ -46,7 +46,7 @@ class LoginWindow(Screen):
     def invalid(self):
         login_failed()
 
-#
+# main window
 class MainWindow(Screen):
     user = ObjectProperty(None)
     def update_userid(self):
@@ -57,6 +57,7 @@ class MainWindow(Screen):
         global code
         code = qrscan.start_scan()
 
+# data display window
 class DataWindow(Screen):
     graph = ObjectProperty(None)
     flag = 1
@@ -72,6 +73,7 @@ class DataWindow(Screen):
             self.graph.clear_widgets()
             self.graph.add_widget(FigureCanvasKivyAgg(plt.gcf()))
 
+# patient registration window
 class RegisterWindow(Screen):
     pname = ObjectProperty(None)
     psurname = ObjectProperty(None)
@@ -106,6 +108,7 @@ class RegisterWindow(Screen):
         self.pheight.text = ""
         self.psex.text = ""
 
+# measurement addition window
 class AddMeasurementWindow(Screen):
     temp = ObjectProperty(None)
     pulse = ObjectProperty(None)
@@ -130,7 +133,7 @@ class AddMeasurementWindow(Screen):
         self.pulse.text = ""
         self.bpressure.text = ""
 
-
+# patient data edition window
 class EditPatientWindow(Screen):
 
     pdata = ()
@@ -185,6 +188,7 @@ class EditPatientWindow(Screen):
         self.npheight.text = ""
         self.npsex.text = ""
 
+# measurement selection window
 class EditMeasurementWindow(Screen):
     spin = ObjectProperty(None)
     def update(self):
@@ -200,6 +204,7 @@ class EditMeasurementWindow(Screen):
             ind = self.spin.text
             print(ind)
 
+# measurement edition window
 class EditWindow(Screen):
     temp = ObjectProperty(None)
     pulse = ObjectProperty(None)
@@ -226,6 +231,7 @@ class EditWindow(Screen):
         self.pulse.text = ""
         self.bpressure.text = ""
 
+# deletion confirmation window
 class Deletion_conf(Screen):
     def conf_delete(self):
         global code, ind
@@ -273,6 +279,7 @@ class Must_select(FloatLayout):
     pass
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+# kv file loading and app running function
 kv = Builder.load_file("my.kv")
 
 class MyMainApp(App):

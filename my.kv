@@ -25,21 +25,25 @@ WindowManager:
             pos_hint: {"x": 0.3, "top": 0.8}
             size_hint: 0.05, 0.05
             text: "Login: "
+
         TextInput:
             pos_hint: {"x": 0.4, "top": 0.8}
             size_hint: 0.15, 0.05
             id: login
             multiline: False
+
         Label:
             pos_hint: {"x": 0.3, "top": 0.7}
             size_hint: 0.05, 0.05
             text: "Password: "
+
         TextInput:
             pos_hint: {"x": 0.4, "top": 0.7}
             size_hint: 0.15, 0.05
             id: password
             multiline: False
             password: True
+
         Button:
             pos_hint: {"x": 0.4, "top": 0.6}
             size_hint: 0.1, 0.1
@@ -97,7 +101,7 @@ WindowManager:
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# mian options window
+# main options window
 <MainWindow>:
     name: "main_screen"
 
@@ -156,6 +160,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.7}
         size_hint: 0.05, 0.05
         text: "Name: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.7}
         size_hint: 0.15, 0.05
@@ -166,6 +171,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.6}
         size_hint: 0.05, 0.05
         text: "Surname: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.6}
         size_hint: 0.15, 0.05
@@ -176,6 +182,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.5}
         size_hint: 0.05, 0.05
         text: "PESEL: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.5}
         size_hint: 0.15, 0.05
@@ -186,6 +193,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.4}
         size_hint: 0.05, 0.05
         text: "Weight [kg]: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.4}
         size_hint: 0.15, 0.05
@@ -196,6 +204,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.3}
         size_hint: 0.05, 0.05
         text: "Height [cm]: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.3}
         size_hint: 0.15, 0.05
@@ -206,6 +215,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.2}
         size_hint: 0.05, 0.05
         text: "Sex (M/F): "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.2}
         size_hint: 0.15, 0.05
@@ -245,6 +255,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.7}
         size_hint: 0.05, 0.05
         text: "Temperature: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.7}
         size_hint: 0.15, 0.05
@@ -255,6 +266,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.6}
         size_hint: 0.05, 0.05
         text: "Pulse: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.6}
         size_hint: 0.15, 0.05
@@ -265,6 +277,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.5}
         size_hint: 0.05, 0.05
         text: "Blood pressure: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.5}
         size_hint: 0.15, 0.05
@@ -317,11 +330,13 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.7}
         size_hint: 0.05, 0.05
         text: "Name: "
+
     Label:
         pos_hint: {"x": 0.2, "top": 0.7}
         size_hint: 0.15, 0.05
         id: pname
         text: ""
+
     TextInput:
         pos_hint: {"x": 0.45, "top": 0.7}
         size_hint: 0.15, 0.05
@@ -332,11 +347,13 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.6}
         size_hint: 0.05, 0.05
         text: "Surname: "
+
     Label:
         pos_hint: {"x": 0.2, "top": 0.6}
         size_hint: 0.15, 0.05
         id: psurname
         text: ""
+
     TextInput:
         pos_hint: {"x": 0.45, "top": 0.6}
         size_hint: 0.15, 0.05
@@ -347,11 +364,13 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.5}
         size_hint: 0.05, 0.05
         text: "PESEL: "
+
     Label:
         pos_hint: {"x": 0.2, "top": 0.5}
         size_hint: 0.15, 0.05
         id: ppesel
         text: ""
+
     TextInput:
         pos_hint: {"x": 0.45, "top": 0.5}
         size_hint: 0.15, 0.05
@@ -362,11 +381,13 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.4}
         size_hint: 0.05, 0.05
         text: "Weight [kg]: "
+
     Label:
         pos_hint: {"x": 0.2, "top": 0.4}
         size_hint: 0.15, 0.05
         id: pweight
         text: ""
+
     TextInput:
         pos_hint: {"x": 0.45, "top": 0.4}
         size_hint: 0.15, 0.05
@@ -377,11 +398,13 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.3}
         size_hint: 0.05, 0.05
         text: "Height [cm]: "
+
     Label:
         pos_hint: {"x": 0.2, "top": 0.3}
         size_hint: 0.15, 0.05
         id: pheight
         text: ""
+
     TextInput:
         pos_hint: {"x": 0.45, "top": 0.3}
         size_hint: 0.15, 0.05
@@ -392,11 +415,13 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.2}
         size_hint: 0.05, 0.05
         text: "Sex (M/F): "
+
     Label:
         pos_hint: {"x": 0.2, "top": 0.2}
         size_hint: 0.15, 0.05
         id: psex
         text: ""
+
     TextInput:
         pos_hint: {"x": 0.45, "top": 0.2}
         size_hint: 0.15, 0.05
@@ -410,6 +435,7 @@ WindowManager:
         on_release:
             root.edit()
             root.update_pdata()
+
     Button:
         pos_hint: {"x": 0.9}
         size_hint: 0.1, 0.05
@@ -483,6 +509,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.7}
         size_hint: 0.05, 0.05
         text: "Temperature: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.7}
         size_hint: 0.15, 0.05
@@ -493,6 +520,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.6}
         size_hint: 0.05, 0.05
         text: "Pulse: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.6}
         size_hint: 0.15, 0.05
@@ -503,6 +531,7 @@ WindowManager:
         pos_hint: {"x": 0.1, "top": 0.5}
         size_hint: 0.05, 0.05
         text: "Blood pressure: "
+
     TextInput:
         pos_hint: {"x": 0.4, "top": 0.5}
         size_hint: 0.15, 0.05

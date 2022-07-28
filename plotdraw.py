@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import host_subplot
 
-# rysowanie i aktualizacja figury
+# plot drawing & update
 def draw_plot(data):
 
     print(type(data))

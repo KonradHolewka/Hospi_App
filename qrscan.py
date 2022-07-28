@@ -1,7 +1,7 @@
 import cv2
 from pyzbar import pyzbar
 
-# czytanie kodu QR
+# QR scanning
 def read_barcode(frame):
     barcodes = pyzbar.decode(frame)
     barcode_info = ''
@@ -18,7 +18,7 @@ def read_barcode(frame):
 
     return frame, barcode_info
 
-# dostęp do kamery
+# camera access
 def start_scan():
     #1
     camera = cv2.VideoCapture(0)

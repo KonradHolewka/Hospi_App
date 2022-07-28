@@ -7,7 +7,7 @@ import plotdraw
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# pobranie danych pacjenta
+# patient data loading
 def patientcard_load(code):
     con, cur = polacz()
 
@@ -24,7 +24,7 @@ def patientcard_load(code):
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# ewierzytelnianie
+# log-in authorization function
 def authorization(log, pas):
     user = ''
     granted = 0
@@ -40,18 +40,18 @@ def authorization(log, pas):
                 granted = 1
                 user = r[0]
 
-    # DODAĆ ERROR - BRAK SERWERA!! (psycopg2.OperationalError)
+    # ADD THE ERROR - SERVER MISSING!! (psycopg2.OperationalError)
     cur.close()
     con.close()
     return granted, user
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# dodanie nowego pacjenta
+# patient addition
 def new_patient(name, surname, pesel, weight, height, sex, user_id):
     con, cur = polacz()
 
-    # tworzenie nowego id pacjenta i sprawdzenie duplikatów
+    # new id creation & searching for duplicates
     while True:
         patient_id = str(random.randint(99999999))
         while True:
@@ -66,7 +66,7 @@ def new_patient(name, surname, pesel, weight, height, sex, user_id):
         if id_check == None:
             break
 
-    # data rejestracji
+    # registration date
     rdate_buf = datetime.datetime.now()
     registration_date = rdate_buf.strftime("%Y") + '-' + rdate_buf.strftime("%m") + '-' + rdate_buf.strftime("%d")
 
@@ -77,7 +77,7 @@ def new_patient(name, surname, pesel, weight, height, sex, user_id):
     cur.execute(command)
     con.commit()
 
-    # nowa tabela pacjenta
+    # creating a new table for the patient
     command = "CREATE TABLE card_" + patient_id + " (\
     measure_id serial NOT NULL, \
     date date NOT NULL, \
@@ -90,25 +90,25 @@ def new_patient(name, surname, pesel, weight, height, sex, user_id):
     cur.execute(command)
     con.commit()
 
-    # zamknięcie połaczenia
+    # connection closure
     cur.close()
     con.close()
 
-    # nowy kod QR, zapisany w trajektorii /storage/emulated/0/Documents
+    # new QC code, saved at the path /storage/emulated/0/Documents on Android
     barcode.new_qr(patient_id)
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# dodanie nowego pomiaru
+# new measurement addition
 def add_measurement(temp, pulse, blood_pr,patient_id):
     con, cur = polacz()
 
-    # data i czas rejestracji
+    # registration date&time
     rdate_buf = datetime.datetime.now()
     registration_date = rdate_buf.strftime("%Y") + '-' + rdate_buf.strftime("%m") + '-' + rdate_buf.strftime("%d")
     registration_time = rdate_buf.strftime("%H") + ':' + rdate_buf.strftime("%M")
 
-    # dzień rezydentury
+    # day of residency (counted from the day of registration)
     command = "SELECT registration_date FROM patients WHERE patient_id = '" + patient_id + "'"
     cur.execute(command)
     fdate = cur.fetchone()[0]
@@ -123,21 +123,22 @@ def add_measurement(temp, pulse, blood_pr,patient_id):
     cur.execute(command)
     con.commit()
 
-    # zamknięcie połaczenia
+    # connection closure
     cur.close()
     con.close()
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# dane pacjenta do okna edycji
+# get patient's data for edition
 def get_pdata(patient_id):
     con, cur = polacz()
 
-    # SELECT na danym pacjencie
+    # fetching the patient's data
     command = "SELECT * FROM patients WHERE patient_id = '" + patient_id + "'"
     cur.execute(command)
     data = cur.fetchone()
     print(data)
-    # zamknięcie połaczenia
+
+    # connection closure
     cur.close()
     con.close()
 
@@ -145,11 +146,11 @@ def get_pdata(patient_id):
 
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# nowe dane pacjenta
+# editing patient's data
 def edit_patient(name, surname, pesel, weight, height, sex, patient_id):
     con, cur = polacz()
 
-    # formowanie zapytania
+    # SQL query formulation
     command = "UPDATE patients SET "
     if name != "":
         buf = "name = '" + name + "', "
@@ -169,13 +170,13 @@ def edit_patient(name, surname, pesel, weight, height, sex, patient_id):
     cur.execute(command)
     con.commit()
 
-    # zamknięcie połaczenia
+    # connection closure
     cur.close()
     con.close()
 
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# usuwanie pomiaru
+# measurement deletion
 def delete_record(index, patient_id):
     con, cur = polacz()
 
@@ -193,13 +194,13 @@ def delete_record(index, patient_id):
     cur.execute(command)
     con.commit()
 
-    # zamknięcie połaczenia
+    # connection closure
     cur.close()
     con.close()
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# edycja pojedynczego pomiaru
+# measurement edition
 def edit_measurement(temp, pulse, bpressure, patient_id, index):
     con, cur = polacz()
 
@@ -224,14 +225,14 @@ def edit_measurement(temp, pulse, bpressure, patient_id, index):
     cur.execute(command)
     con.commit()
 
-    # zamknięcie połaczenia
+    # connection closure
     cur.close()
     con.close()
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-# funkcja suplementacyjna, wprowadzic poprawne dane polaczenia!
+# connection to the database, insert appropriate connection features!
 def polacz():
     connection = psycopg2.connect(host="abul.db.elephantsql.com", database="nxuliape", user="nxuliape", password="c5FT1S6m-3Cn_RRYChx40mXjFDb-uvKN")
     cursor = connection.cursor()
