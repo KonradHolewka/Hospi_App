@@ -1,12 +1,11 @@
 from kivy.app import App
 from kivy.properties import ObjectProperty
-from kivy.uix.floatlayout import FloatLayout
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.popup import Popup
 import qrscan
 import psqlconnect
 import psycopg2
+import popup_windows
 from psycopg2 import errors
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 import matplotlib.pyplot as plt
@@ -42,11 +41,11 @@ class LoginWindow(Screen):
             global user_id, physician_name, physician_surname
             self.flag, user_id, physician_name, physician_surname = psqlconnect.authorization(self.login.text, self.password.text)
         except psycopg2.OperationalError:
-            connection_failed()
+            popup_windows.ConnectionFailed.connection_failed()
 
 
     def invalid(self):
-        login_failed()
+        popup_windows.LoginFailed.login_failed()
 
 # main window
 class MainWindow(Screen):
@@ -104,10 +103,10 @@ class RegisterWindow(Screen):
                                     self.psex.text,
                                     user_id
                                     )
-            register_success()
+            popup_windows.RegisterSuccess.register_success()
             self.clear()
         except errors.lookup("42601"):
-            register_failed()
+            popup_windows.RegisterFailed.register_failed()
             self.clear()
 
     def clear(self):
@@ -132,10 +131,10 @@ class AddMeasurementWindow(Screen):
                                         self.bpressure.text,
                                         code
                                         )
-            add_success()
+            popup_windows.AddSuccess.add_success()
             self.clear()
         except errors.lookup("42601"):
-            add_failed()
+            popup_windows.AddFailed.add_failed()
             self.clear()
 
     def clear(self):
@@ -184,10 +183,10 @@ class EditPatientWindow(Screen):
                                                     self.npheight.text,
                                                     self.npsex.text, code
                                                     )
-            edit_patient_success()
+            popup_windows.EditPatientSuccess.edit_patient_success()
             self.clear()
         except errors.lookup("42601"):
-            edit_patient_failed()
+            popup_windows.EditPatientFailed.edit_patient_failed()
             self.clear()
 
     def clear(self):
@@ -208,7 +207,7 @@ class EditMeasurementWindow(Screen):
 
     def get_ind(self):
         if self.spin.text == "Select a timestamp...":
-            must_select()
+            popup_windows.MustSelect.must_select()
         else:
             global ind
             ind = self.spin.text
@@ -230,10 +229,10 @@ class EditWindow(Screen):
                 code,
                 ind
             )
-            edit_success()
+            popup_windows.EditSuccess.edit_success()
             self.clear()
         except errors.lookup("42601"):
-            edit_failed()
+            popup_windows.EditFailed.edit_failed()
             self.clear()
 
     def clear(self):
@@ -246,47 +245,8 @@ class Deletion_conf(Screen):
     def conf_delete(self):
         global code, ind
         psqlconnect.delete_record(ind, code)
-        conf_del()
+        popup_windows.ConfirmDeletion.confirm_deletion()
 
-#//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-# pop-up window classes
-
-class Login_failed(FloatLayout):
-    pass
-
-class Register_failed(FloatLayout):
-    pass
-
-class Register_success(FloatLayout):
-    pass
-
-class Add_success(FloatLayout):
-    pass
-
-class Add_failed(FloatLayout):
-    pass
-
-class Edit_patient_success(FloatLayout):
-    pass
-
-class Edit_patient_failed(FloatLayout):
-    pass
-
-class Connection_failed(FloatLayout):
-    pass
-
-class Conf_del(FloatLayout):
-    pass
-
-class Edit_success(FloatLayout):
-    pass
-
-class Edit_failed(FloatLayout):
-    pass
-
-class Must_select(FloatLayout):
-    pass
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 # kv file loading and app running function
@@ -296,68 +256,6 @@ class MyMainApp(App):
     def build(self):
         return kv
 
-#//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-# popup functions
-def login_failed():
-    show = Login_failed()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400,400))
-    popupWindow.open()
-
-def register_failed():
-    show = Register_failed()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def register_success():
-    show = Register_success()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def add_failed():
-    show = Add_failed()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def add_success():
-    show = Add_success()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def edit_patient_success():
-    show = Edit_patient_success()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def edit_patient_failed():
-    show = Edit_patient_failed()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def connection_failed():
-    show = Connection_failed()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def conf_del():
-    show = Conf_del()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def edit_success():
-    show = Edit_success()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def edit_failed():
-    show = Edit_failed()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
-
-def must_select():
-    show = Must_select()
-    popupWindow = Popup(title="Popup Window", content=show, size_hint=(None, None), size=(400, 400))
-    popupWindow.open()
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if __name__ == "__main__":
