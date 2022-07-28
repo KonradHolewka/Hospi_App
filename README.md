@@ -44,4 +44,4 @@ Development plans:
  - timestamp fix,
  - GUI improvement.
 
-Current app version: v0.1.1
+Current app version: v0.2.0

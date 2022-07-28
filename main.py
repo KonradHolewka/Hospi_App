@@ -17,6 +17,8 @@ import matplotlib.pyplot as plt
 data = 0
 code = 0
 user_id = ''
+physician_name = ''
+physician_surname = ''
 spinnervalues = []
 ind = ""
 
@@ -37,11 +39,11 @@ class LoginWindow(Screen):
     flag = 0
     def check(self):
         try:
-            global user_id
-            self.flag, user_id = psqlconnect.authorization(self.login.text, self.password.text)
+            global user_id, physician_name, physician_surname
+            self.flag, user_id, physician_name, physician_surname = psqlconnect.authorization(self.login.text, self.password.text)
         except psycopg2.OperationalError:
             connection_failed()
-        print(user_id)
+
 
     def invalid(self):
         login_failed()
@@ -50,8 +52,9 @@ class LoginWindow(Screen):
 class MainWindow(Screen):
     user = ObjectProperty(None)
     def update_userid(self):
-        global user_id
-        self.user.text = "User ID: " + user_id
+        global user_id, physician_name, physician_surname
+        self.user.text = "User ID: " + user_id + "\n" + \
+                         "Welcome back, doctor " + physician_name + " " + physician_surname + "!"
 
     def start_scan(self):
         global code
@@ -60,12 +63,19 @@ class MainWindow(Screen):
 # data display window
 class DataWindow(Screen):
     graph = ObjectProperty(None)
+    patient_label = ObjectProperty(None)
     flag = 1
+
+    def get_patientdata(self):
+        patient_data = psqlconnect.get_pdata(code)
+        self.patient_label.text = "Patient\'s name: " + str(patient_data[1]) + " " + str(patient_data[2]) + \
+                                  "          Patient\'s ID: " + str(patient_data[0])
 
     def get_data(self):
         global data, spinnervalues
         plt.close()
         data, spinnervalues = psqlconnect.patientcard_load(code)
+
         if self.flag == 1:
             self.graph.add_widget(FigureCanvasKivyAgg(plt.gcf()))
             self.flag = 0

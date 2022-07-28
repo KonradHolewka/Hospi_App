@@ -50,7 +50,6 @@ WindowManager:
             text: "Submit"
             on_release:
                 root.check()
-                app.root.current = "login_screen"
                 app.root.current = "main_screen" if root.flag == 1 else root.invalid()
 
 
@@ -60,17 +59,31 @@ WindowManager:
 # data display window
 <DataWindow>:
     name: "data_screen"
+
     graph: graph
+    patient_label: patient_label
+
     on_enter:
         root.get_data()
+        root.get_patientdata()
 
     GridLayout:
-        rows:2
+        rows:3
+        BoxLayout:
+            size_hint: 1, 0.05
+            pos_hint: {"x": 0, "top": 0}
+
+            Label:
+                id: patient_label
+                text: ""
+
         BoxLayout:
             id: graph
+            size_hint: 1, 0.8
+            pos_hint: {"x": 0, "top": 0}
 
         FloatLayout:
-            size_hint: 1, 0.3
+            size_hint: 1, 0.2
 
             Button:
                 pos_hint: {"x": 0.2, "top": 0.9}
@@ -88,7 +101,7 @@ WindowManager:
             Button:
                 pos_hint: {"x": 0.5, "top": 0.9}
                 size_hint: 0.3, 0.4
-                text: "Edit patient's data"
+                text: "View & edit patient's data"
                 on_release:
                     app.root.current = "editpatient_screen"
 
@@ -128,7 +141,7 @@ WindowManager:
     Label:
         id: user
         pos_hint: {"x": 0.05, "top": 0.95}
-        size_hint: 0.1, 0.05
+        size_hint: 0.3, 0.05
         text: ""
 
     Button:

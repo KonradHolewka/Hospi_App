@@ -13,9 +13,8 @@ def patientcard_load(code):
 
     command = "SELECT * FROM card_" + code
     cur.execute(command)
-    # bierze wszystkie rekordy
+    # takes all measurement records
     data = cur.fetchall()
-
     values = plotdraw.draw_plot(data)
 
     cur.close()
@@ -27,23 +26,28 @@ def patientcard_load(code):
 # log-in authorization function
 def authorization(log, pas):
     user = ''
+    name = ''
+    surname = ''
     granted = 0
 
     con, cur = polacz()
 
     cur.execute("SELECT * FROM users")
     rows = cur.fetchall()
+    print("Registered physicians in the database:")
     for r in rows:
-        print (f"id {r[1]} name {r[2]}")
+        print(f"login {r[1]} password {r[2]} name {r[3]} surname {r[4]}")
         if r[1] == log:
             if r[2] == pas:
                 granted = 1
                 user = r[0]
+                name = r[3]
+                surname = r[4]
 
     # ADD THE ERROR - SERVER MISSING!! (psycopg2.OperationalError)
     cur.close()
     con.close()
-    return granted, user
+    return granted, user, name, surname
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
